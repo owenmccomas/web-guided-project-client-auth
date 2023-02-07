@@ -2,13 +2,15 @@ import React from 'react';
 import axios from 'axios';
 
 class Login extends React.Component {
+
+  
   state = {
     credentials: {
       username: '',
       password: ''
     }
   };
-
+  
   handleChange = e => {
     this.setState({
       credentials: {
@@ -20,6 +22,10 @@ class Login extends React.Component {
 
   login = e => {
     e.preventDefault();
+    axios.post('http://localhost:5001/api/login', this.state.credentials)
+    .then(res => {localStorage.setItem('token', res.data.token);
+        this.props.history.push('/protected')})
+    .catch(err => console.error(err))
   };
 
   render() {
